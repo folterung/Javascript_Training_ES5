@@ -46,6 +46,14 @@ header .menu li {
   position: relative;
 }
 
+header .menu li a {
+  -webkit-transition: color 0.3s ease-out;
+  -moz-transition: color 0.3s ease-out;
+  -ms-transition: color 0.3s ease-out;
+  -o-transition: color 0.3s ease-out;
+  transition: color 0.3s ease-out;
+}
+
 header .menu li a,
 header .menu li a.active{
   text-decoration: none;
@@ -92,18 +100,24 @@ header .menu li a:after {
   transition: all 0.3s ease-out;
 }
 
-header .menu li a:hover:before,
-header .menu li a:hover:after {
+header .menu li a:not(.current):hover:before,
+header .menu li a:not(.current):hover:after {
   opacity: 0.8;
   filter: alpha(opacity=80);
 }
 
-header .menu li a:hover:before {
+header .menu li a:not(.current):hover:before {
   left: 0;
 }
 
-header .menu li a:hover:after {
+header .menu li a:not(.current):hover:after {
   right: 0;
+}
+
+header .menu li a.current {
+  color: #f5f5f5;
+  border-bottom: 1px solid #f5f5f5;
+  cursor: default;
 }
 
 header.active {

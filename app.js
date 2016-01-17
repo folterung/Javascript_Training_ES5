@@ -17,6 +17,9 @@
 
       function TrainingApp() {
         this.contentWrapper = document.querySelector('.content-wrapper');
+        this.homeLink = document.querySelector('#homeLink');
+        this.aboutLink = document.querySelector('#aboutLink');
+        this.portfolioLink = document.querySelector('#portfolioLink');
         this.cache = {};
         this.currentPage = undefined;
       }
@@ -50,8 +53,13 @@
 
         __TrainingApp.currentPage = 'home';
 
+        _resetLinks();
+
+        __TrainingApp.homeLink.className = 'current';
+
         _get('partials/home.html', function(data) {
           __TrainingApp.contentWrapper.innerHTML = data.response;
+
         });
       }
 
@@ -59,6 +67,10 @@
         if(__TrainingApp.currentPage === 'about') { return; }
 
         __TrainingApp.currentPage = 'about';
+
+        _resetLinks();
+
+        __TrainingApp.aboutLink.className = 'current';
 
         _get('partials/about.html', function(data) {
           __TrainingApp.contentWrapper.innerHTML = data.response;
@@ -69,6 +81,10 @@
         if(__TrainingApp.currentPage === 'portfolio') { return; }
 
         __TrainingApp.currentPage = 'portfolio';
+
+        _resetLinks();
+
+        __TrainingApp.portfolioLink.className = 'current';
 
         _get('partials/portfolio.html', function(data) {
           __TrainingApp.contentWrapper.innerHTML = data.response;
@@ -92,6 +108,12 @@
             cb(__TrainingApp.cache[url]);
           }
         }
+      }
+
+      function _resetLinks() {
+        __TrainingApp.homeLink.className = '';
+        __TrainingApp.aboutLink.className = '';
+        __TrainingApp.portfolioLink.className = '';
       }
     })();
   }
