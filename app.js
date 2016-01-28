@@ -49,45 +49,32 @@
       }
 
       function showHome() {
-        if(__TrainingApp.currentPage === 'home') { return; }
+        _setPage('home', function() {
+          _setLinks('homeLink');
 
-        __TrainingApp.currentPage = 'home';
-
-        _resetLinks();
-
-        __TrainingApp.homeLink.className = 'current';
-
-        _get('partials/home.html', function(data) {
-          __TrainingApp.contentWrapper.innerHTML = data.response;
-
+          _get('partials/home.html', function(data) {
+            __TrainingApp.contentWrapper.innerHTML = data.response;
+          });
         });
       }
 
       function showAbout() {
-        if(__TrainingApp.currentPage === 'about') { return; }
+        _setPage('about', function() {
+          _setLinks('aboutLink');
 
-        __TrainingApp.currentPage = 'about';
-
-        _resetLinks();
-
-        __TrainingApp.aboutLink.className = 'current';
-
-        _get('partials/about.html', function(data) {
-          __TrainingApp.contentWrapper.innerHTML = data.response;
+          _get('partials/about.html', function(data) {
+            __TrainingApp.contentWrapper.innerHTML = data.response;
+          });
         });
       }
 
       function showPortfolio() {
-        if(__TrainingApp.currentPage === 'portfolio') { return; }
+        _setPage('portfolio', function() {
+          _setLinks('portfolioLink');
 
-        __TrainingApp.currentPage = 'portfolio';
-
-        _resetLinks();
-
-        __TrainingApp.portfolioLink.className = 'current';
-
-        _get('partials/portfolio.html', function(data) {
-          __TrainingApp.contentWrapper.innerHTML = data.response;
+          _get('partials/portfolio.html', function(data) {
+            __TrainingApp.contentWrapper.innerHTML = data.response;
+          });
         });
       }
 
@@ -114,6 +101,21 @@
         __TrainingApp.homeLink.className = '';
         __TrainingApp.aboutLink.className = '';
         __TrainingApp.portfolioLink.className = '';
+      }
+
+      function _setPage(name, cb) {
+        if(__TrainingApp.currentPage === name) { return; }
+
+        __TrainingApp.currentPage = name;
+
+        if(cb && cb instanceof Function) {
+          cb.call(this);
+        }
+      }
+
+      function _setLinks(name) {
+        _resetLinks();
+        __TrainingApp[name].className = 'current';
       }
     })();
   }
