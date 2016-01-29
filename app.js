@@ -14,21 +14,36 @@
   function initialize() {
     window.TrainingApp = (function() {
       var __TrainingApp;
+      var pageMap = {
+        home: {
+          linkName: 'homeLink',
+          pageName: 'home',
+          partial: 'partials/home.html'
+        },
+        about: {
+          linkName: 'aboutLink',
+          pageName: 'about',
+          partial: 'partials/about.html'
+        },
+        portfolio: {
+          linkName: 'portfolioLink',
+          pageName: 'portfolio',
+          partial: 'partials/portfolio.html'
+        }
+      };
 
       function TrainingApp() {
         this.contentWrapper = document.querySelector('.content-wrapper');
-        this.homeLink = document.querySelector('#homeLink');
-        this.aboutLink = document.querySelector('#aboutLink');
-        this.portfolioLink = document.querySelector('#portfolioLink');
+        this.homeLink = document.querySelector('#' + pageMap.home.linkName);
+        this.aboutLink = document.querySelector('#' + pageMap.about.linkName);
+        this.portfolioLink = document.querySelector('#' + pageMap.portfolio.linkName);
         this.cache = {};
         this.currentPage = undefined;
       }
 
       TrainingApp.prototype.revealHeader = revealHeader;
       TrainingApp.prototype.revealContent = revealContent;
-      TrainingApp.prototype.showHome = showHome;
-      TrainingApp.prototype.showAbout = showAbout;
-      TrainingApp.prototype.showPortfolio = showPortfolio;
+      TrainingApp.prototype.goTo = goTo;
 
       __TrainingApp = new TrainingApp();
 
@@ -41,38 +56,18 @@
       }
 
       function revealContent() {
-        window.TrainingApp.showHome();
+        window.TrainingApp.goTo('home');
 
         setTimeout(function() {
           __TrainingApp.contentWrapper.className = 'content-wrapper active';
         }, 200);
       }
 
-      function showHome() {
-        _setPage('home', function() {
-          _setLinks('homeLink');
+      function goTo(name) {
+        _setPage(pageMap[name].pageName, function() {
+          _setLinks(pageMap[name].linkName);
 
-          _get('partials/home.html', function(data) {
-            __TrainingApp.contentWrapper.innerHTML = data.response;
-          });
-        });
-      }
-
-      function showAbout() {
-        _setPage('about', function() {
-          _setLinks('aboutLink');
-
-          _get('partials/about.html', function(data) {
-            __TrainingApp.contentWrapper.innerHTML = data.response;
-          });
-        });
-      }
-
-      function showPortfolio() {
-        _setPage('portfolio', function() {
-          _setLinks('portfolioLink');
-
-          _get('partials/portfolio.html', function(data) {
+          _get(pageMap[name].partial, function(data) {
             __TrainingApp.contentWrapper.innerHTML = data.response;
           });
         });
